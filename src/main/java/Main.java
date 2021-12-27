@@ -1,8 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,9 +10,12 @@ public class Main {
         int A2[] = {1, 2, 3, 4, 2};
         int A1[] = {3, 1, 2, 4, 3};
         int A3[] = {1,1,3};
-        System.out.println(TapeEquilibrium(A3));
-        System.out.println(TapeEquilibrium(A2));
-        System.out.println(TapeEquilibrium(A1));
+//        System.out.println(TapeEquilibrium(A3));
+//        System.out.println(TapeEquilibrium(A2));
+//        System.out.println(TapeEquilibrium(A1));
+
+        int arr[]={1,3,1,4,2,3,5,4};
+        System.out.println(FrogRiverOne(5,arr));
     }
 
     public static int BinaryGap(int N) {
@@ -112,5 +112,26 @@ public class Main {
             minDiff = Math.min(currentDifference, minDiff);
         }
         return minDiff;
+    }
+
+    public static int FrogRiverOne(int x,int[] A){
+        Set<Integer> sequance=new HashSet<>();
+        for (int i = 1; i <= x; i++) {
+            sequance.add(i);
+        }
+        for (int i = 0; i < A.length; i++) {
+            if(sequance.contains(A[i])){
+                sequance.remove(Integer.valueOf(A[i]));
+            }
+            if(sequance.size()==0){
+                return i;
+            }
+        }
+        /**
+         * 5,4,3,2,1
+         * [1,3,1,4,2,3,5,4]
+         * 1,1,2,3,3,4,5
+         */
+        return -1;
     }
 }
