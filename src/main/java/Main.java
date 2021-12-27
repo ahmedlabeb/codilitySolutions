@@ -1,9 +1,23 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
+        // 3,1,2,4,3
+
+        int A2[] = {1, 2, 3, 4, 2};
+        int A1[] = {3, 1, 2, 4, 3};
+        int A3[] = {1,1,3};
+        System.out.println(TapeEquilibrium(A3));
+        System.out.println(TapeEquilibrium(A2));
+        System.out.println(TapeEquilibrium(A1));
     }
+
     public static int BinaryGap(int N) {
         // write your code in Java SE 8
         String binaryString = Integer.toBinaryString(N);
@@ -21,7 +35,7 @@ public class Main {
 
                     }
                     count = 0;
-                    check.remove(check.size()-1);
+                    check.remove(check.size() - 1);
                 }
             } else if (chars[i] == '0') {
                 count++;
@@ -32,15 +46,15 @@ public class Main {
 
     public static int[] CyclicRotation(int[] A, int K) {
         // write your code in Java SE 8
-        if(A.length==0)
+        if (A.length == 0)
             return A;
 
-        for(int i=0;i<K;i++){
+        for (int i = 0; i < K; i++) {
 
-            int last =A[A.length-1];
+            int last = A[A.length - 1];
 
-            for(int j=A.length-1;j>0;j--){
-                A[j] = A[j-1];
+            for (int j = A.length - 1; j > 0; j--) {
+                A[j] = A[j - 1];
                 // A[j]=A[j+1];
             }
             A[0] = last;
@@ -49,10 +63,10 @@ public class Main {
         return A;
     }
 
-    public static  int OddOccurrencesInArray(int[] A){
-        boolean ispaired=false;
-        int unpairedValue=0;
-        List<Integer> list=new ArrayList<>();
+    public static int OddOccurrencesInArray(int[] A) {
+        boolean ispaired = false;
+        int unpairedValue = 0;
+        List<Integer> list = new ArrayList<>();
 
         for (int i = 0; i < A.length; i++) {
 //            if(!list.contains(A[i])){
@@ -65,4 +79,38 @@ public class Main {
         return unpairedValue;
     }
 
+    public static int FrogJmp(int X, int Y, int D) {
+        int distance = Y - X;
+        double result = (double) distance / (double) D;
+        System.out.println(result);
+        return (int) Math.ceil(result);
+    }
+
+    public static int PermMissingElem(int[] A) {
+        Set<Integer> intArray = Arrays.stream(A).
+                boxed().collect(Collectors.toSet());
+        int N = 0;
+        while (true) {
+            if (intArray.contains(N)) {
+                N = N + 1;
+                continue;
+            }
+            return N;
+        }
+    }
+
+    public static int TapeEquilibrium(int[] A) {
+        int sumAllElement = Arrays.stream(A).sum();
+        int minDiff = Integer.MAX_VALUE;
+        int currentDifference;
+        int sumFirstPart = 0;
+        int sumSecondPart = 0;
+        for (int i = 0; i < A.length; i++) {
+            sumFirstPart += A[i];
+            sumSecondPart = sumAllElement - sumFirstPart;
+            currentDifference = Math.abs(sumSecondPart - sumFirstPart);
+            minDiff = Math.min(currentDifference, minDiff);
+        }
+        return minDiff;
+    }
 }
