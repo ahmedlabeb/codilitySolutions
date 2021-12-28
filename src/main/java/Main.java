@@ -1,21 +1,34 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
         // 3,1,2,4,3
 
-        int A2[] = {1, 2, 3, 4, 2};
+        int A2[] = {1, 2, 3, 4, 5};
         int A1[] = {3, 1, 2, 4, 3};
-        int A3[] = {1,1,3};
+        int A3[] = {6, 4, 4, 4, 4, 3};
+        /**
+         * 0,0,0,0,0
+         * 0,0,1,0,0
+         * 0,0,1,1,0
+         * 0,0,1,2,0
+         * 2,2,2,2,2
+         * 2,2,2,2,2
+         * 2,2,2,3,2
+         * 2,2,2,4,2
+         */
 //        System.out.println(TapeEquilibrium(A3));
 //        System.out.println(TapeEquilibrium(A2));
 //        System.out.println(TapeEquilibrium(A1));
+        Arrays.stream(MaxCounters(5, A3)).boxed().forEach(System.out::println);
+        System.out.println("--------------");
+        Arrays.stream(MaxCounters2(5, A3)).boxed().forEach(System.out::println);
 
-        int arr[]={1,3,1,4,2,3,5,4};
-        System.out.println(FrogRiverOne(5,arr));
+        int arr[] = {1, 3, 1, 4, 2, 3, 5, 4};
+
+
+//        System.out.println(FrogRiverOne(5,arr));
     }
 
     public static int BinaryGap(int N) {
@@ -114,16 +127,16 @@ public class Main {
         return minDiff;
     }
 
-    public static int FrogRiverOne(int x,int[] A){
-        Set<Integer> sequance=new HashSet<>();
+    public static int FrogRiverOne(int x, int[] A) {
+        Set<Integer> sequance = new HashSet<>();
         for (int i = 1; i <= x; i++) {
             sequance.add(i);
         }
         for (int i = 0; i < A.length; i++) {
-            if(sequance.contains(A[i])){
+            if (sequance.contains(A[i])) {
                 sequance.remove(Integer.valueOf(A[i]));
             }
-            if(sequance.size()==0){
+            if (sequance.size() == 0) {
                 return i;
             }
         }
@@ -133,5 +146,71 @@ public class Main {
          * 1,1,2,3,3,4,5
          */
         return -1;
+    }
+
+    public static int PermCheck(int[] A) {
+        Set<Integer> integerSet = Arrays.stream(A).boxed().collect(Collectors.toSet());
+        for (int i = 0; i < A.length; i++) {
+            if (!integerSet.contains(i + 1)) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    // Correctence 50% performance 20%
+    public static int[] MaxCounters(int N, int[] A) {
+        int[] result = new int[N];
+        int max = 0;
+        int currentMax = 0;
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] >= 1 && A[i] <= N) {
+                if (result[A[i] - 1] < max) {
+                    result[A[i] - 1] = max + 1;
+                } else {
+                    result[A[i] - 1] += 1;
+                }
+
+                if (result[A[i] - 1] > max)
+                    currentMax = result[A[i] - 1];
+            } else {
+                max = currentMax;
+//                 max = Arrays.stream(result).max().getAsInt();
+            }
+
+        }
+
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] <= max)
+                result[i] = max;
+        }
+        return result;
+    }
+
+    // soultion2
+    // Correctence 100% performance 0%
+    public static int[] MaxCounters2(int N, int[] A) {
+        int[] result = new int[N];
+        int max = 0;
+        int currentMax = 0;
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] >= 1 && A[i] <= N) {
+                if (result[A[i] - 1] < max) {
+                    result[A[i] - 1] = max + 1;
+                } else {
+                    result[A[i] - 1] += 1;
+                }
+            } else {
+                max = Arrays.stream(result).max().getAsInt();
+//                Arrays.fill(result, max);
+
+            }
+
+        }
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] < max)
+                result[i] = max;
+        }
+        return result;
     }
 }
