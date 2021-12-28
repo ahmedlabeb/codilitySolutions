@@ -158,31 +158,30 @@ public class Main {
         return 1;
     }
 
-    // Correctence 50% performance 20%
+    // Correctence 100% performance 100%
     public static int[] MaxCounters(int N, int[] A) {
         int[] result = new int[N];
         int max = 0;
-        int currentMax = 0;
+        int lastMax = 0;
         for (int i = 0; i < A.length; i++) {
             if (A[i] >= 1 && A[i] <= N) {
-                if (result[A[i] - 1] < max) {
-                    result[A[i] - 1] = max + 1;
+                if (result[A[i] - 1] < lastMax) {
+                    result[A[i] - 1] = lastMax + 1;
                 } else {
                     result[A[i] - 1] += 1;
                 }
 
                 if (result[A[i] - 1] > max)
-                    currentMax = result[A[i] - 1];
-            } else {
-                max = currentMax;
-//                 max = Arrays.stream(result).max().getAsInt();
+                    max = result[A[i] - 1];
+            } else if (A[i] == N + 1){
+                lastMax=max ;
             }
-
         }
 
         for (int i = 0; i < result.length; i++) {
-            if (result[i] <= max)
-                result[i] = max;
+            if (result[i] <= lastMax) {
+                result[i] = lastMax;
+            }
         }
         return result;
     }
@@ -192,7 +191,6 @@ public class Main {
     public static int[] MaxCounters2(int N, int[] A) {
         int[] result = new int[N];
         int max = 0;
-        int currentMax = 0;
         for (int i = 0; i < A.length; i++) {
             if (A[i] >= 1 && A[i] <= N) {
                 if (result[A[i] - 1] < max) {
@@ -202,7 +200,6 @@ public class Main {
                 }
             } else {
                 max = Arrays.stream(result).max().getAsInt();
-//                Arrays.fill(result, max);
 
             }
 
