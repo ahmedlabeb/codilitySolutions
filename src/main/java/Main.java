@@ -6,7 +6,7 @@ public class Main {
         // 3,1,2,4,3
 
         int A2[] = {1, 2, 3, 4, 5};
-        int A1[] = {3, 1, 2, 4, 3};
+        int A1[] = {7, 1, 2, 4, 3};
         int A3[] = {6, 4, 4, 4, 4, 3};
         /**
          * 0,0,0,0,0
@@ -21,14 +21,16 @@ public class Main {
 //        System.out.println(TapeEquilibrium(A3));
 //        System.out.println(TapeEquilibrium(A2));
 //        System.out.println(TapeEquilibrium(A1));
-        Arrays.stream(MaxCounters(5, A3)).boxed().forEach(System.out::println);
-        System.out.println("--------------");
-        Arrays.stream(MaxCounters2(5, A3)).boxed().forEach(System.out::println);
+//        Arrays.stream(MaxCounters(5, A3)).boxed().forEach(System.out::println);
+//        System.out.println("--------------");
+//        Arrays.stream(MaxCounters2(5, A3)).boxed().forEach(System.out::println);
 
         int arr[] = {1, 3, 1, 4, 2, 3, 5, 4};
 
 
 //        System.out.println(FrogRiverOne(5,arr));
+        int A4[] = {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1};
+        System.out.println(PassingCars(A4));
     }
 
     public static int BinaryGap(int N) {
@@ -173,8 +175,8 @@ public class Main {
 
                 if (result[A[i] - 1] > max)
                     max = result[A[i] - 1];
-            } else if (A[i] == N + 1){
-                lastMax=max ;
+            } else if (A[i] == N + 1) {
+                lastMax = max;
             }
         }
 
@@ -209,5 +211,36 @@ public class Main {
                 result[i] = max;
         }
         return result;
+    }
+
+    public static int MissingInteger(int[] A) {
+        HashSet<Integer> seen = new HashSet<Integer>();
+        int min = 1;
+
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] > 0) seen.add(A[i]);
+        }
+
+        for(int i = 1 ; i < Integer.MAX_VALUE; i++) {
+            if(!seen.contains(i)) return i;
+        }
+        return min;
+    }
+
+    // Correctence 100% performance 100%
+    public static int PassingCars(int[] A){
+        int zeroCountBefore1s=0;
+        int counter=0;
+        for (int i = 0; i < A.length; i++) {
+            if(A[i]==0){
+                zeroCountBefore1s++;
+            }else{
+                counter=counter+zeroCountBefore1s;
+            }
+            if(counter>1000000000)
+                return -1;
+        }
+
+        return counter;
     }
 }
